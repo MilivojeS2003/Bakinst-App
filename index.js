@@ -164,6 +164,8 @@ btnTransfer.addEventListener("click", (e)=> {
   const amount = Number(inputTransferAmount.value);
   const receiverAccount = accounts.find(acc => acc.username === inputTransferToValue)
 
+  inputTransferTo.value =  inputTransferAmount.value =  '';
+  
   if(receiverAccount && amount > 0 && amount <= currentAccount.balance && currentAccount.username !== receiverAccount.username){
       console.log('TRANSAKCIJA JE MOGUCA');
       // Doing the tranform
@@ -178,6 +180,41 @@ btnTransfer.addEventListener("click", (e)=> {
 })
 
 
+// CLOSE ACCOUNT
+
+btnClose.addEventListener("click", (e)=>{
+  e.preventDefault();
+
+  const username = inputCloseUsername.value;
+  const pin = Number(inputClosePin.value);
+
+
+  
+  if(currentAccount.username === username && currentAccount.pin === pin){
+    const indexAcc = accounts.findIndex((acc) => acc.username === username)
+    console.log(indexAcc);
+
+    accounts.splice(indexAcc,1);
+    containerApp.style.opacity = "0";
+
+    labelWelcome.textContent = `Log in to get started`;
+    inputCloseUsername.value = '';
+    inputClosePin.value = '';
+  }
+})
+
+
+btnLoan.addEventListener("click", (e)=>{
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if(amount > 0 && currentAccount.movements.some(mov => mov>= amount*0.1)){
+    currentAccount.movements.push(amount);
+    updateUi(currentAccount);
+  }
+
+})
 
 
 
@@ -208,7 +245,7 @@ btnTransfer.addEventListener("click", (e)=> {
 
 // FILTER
 
-const movements = [200,300,400,-450,900,-600,1200,-240]
+const movements = [200,300,400,-450,900,-600,2200,-240]
 
 // const deposit = movements.filter(mov =>{
 //   console.log(mov);
@@ -246,3 +283,91 @@ const movements = [200,300,400,-450,900,-600,1200,-240]
 
 // const account = accounts.find(acc => acc.owner === 'Jessica Davis')
 // console.log(account);
+
+
+// const lastWithdrawal = movements.findLast(mov => mov < 0)
+// console.log(lastWithdrawal);
+
+// const lastInd = movements.findLastIndex(mov => Math.abs(mov) > 2000)
+// console.log(lastInd);
+
+// console.log(movements.includes(-130));
+
+
+const breeds = [
+  {
+    breed: 'German Shepherd',
+    averageWeight: 32,
+    activities: ['fetch', 'swimming'],
+  },
+  {
+    breed: 'Dalmatian',
+    averageWeight: 24,
+    activities: ['running', 'fetch', 'agility'],
+  },
+  {
+    breed: 'Labrador',
+    averageWeight: 28,
+    activities: ['swimming', 'fetch'],
+  },
+  {
+    breed: 'Beagle',
+    averageWeight: 12,
+    activities: ['digging', 'fetch'],
+  },
+  {
+    breed: 'Husky',
+    averageWeight: 26,
+    activities: ['running', 'agility', 'swimming'],
+  },
+  {
+    breed: 'Bulldog',
+    averageWeight: 36,
+    activities: ['sleeping'],
+  },
+  {
+    breed: 'Poodle',
+    averageWeight: 18,
+    activities: ['agility', 'fetch'],
+  },
+];
+
+
+const newBreeds = breeds.find(breed => breed.activities.includes('fetch') && breed.activities.includes('running'))
+console.log(newBreeds);
+
+
+// let allActivitie = [];
+// allActivitie.push(breeds.find(breed => breed.activities))
+// console.log(allActivitie);
+let newArray = [];
+breeds.map(breed => {
+  console.log(breed.activities);
+  newArray.push(breed.activities)
+})
+console.log(newArray.flat());
+
+let allActivitie = [...new Set(newArray.flat())]
+console.log(allActivitie);
+
+//let swimmingAdjancet = [];
+newArray = []
+breeds.map(breed => {  
+  if(breed.activities.includes('swimming')){
+      newArray.push(breed.activities)
+  }
+
+  })
+let swimmingAdjancet = newArray.flat()
+swimmingAdjancet = swimmingAdjancet.filter(item => item !== 'swimming')
+console.log(swimmingAdjancet);
+
+let averageWeight = breeds.map(breed => breed.averageWeight)
+console.log(averageWeight.every(item => item > 10));
+
+console.log(breeds.every(breed => breed.averageWeight > 10));
+
+const fetchBreeds = breeds.filter(breed => breed.activities.includes('fetch')).map(breed => breed.averageWeight)
+const avgFetchBreeds = fetchBreeds.reduce((sum,item) => sum+item,0) / fetchBreeds.length
+console.log(fetchBreeds);
+console.log(avgFetchBreeds);
