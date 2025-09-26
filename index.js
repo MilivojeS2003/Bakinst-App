@@ -62,9 +62,15 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = (acc) => {
+const displayMovements = (acc,sort = false) => {
   containerMovements.innerHTML = '';
-    acc.movements.forEach(function(mov,i){
+  let movements = [...acc.movements]
+  if(sort){
+      movements = movements.sort((a,b) => a-b);
+  }
+    console.log(`OVO JE SORTIRANI NIZ: ${acc.movements}`);
+    movements.forEach(function(mov,i){
+       
       console.log(i,mov);
       const type = mov > 0 ? 'deposit' : 'withdrawal';
       const html = `
@@ -75,7 +81,8 @@ const displayMovements = (acc) => {
         </div>
       `;
     containerMovements.insertAdjacentHTML('afterbegin',html);
-      
+    
+  
     })
 }
 
@@ -217,6 +224,17 @@ btnLoan.addEventListener("click", (e)=>{
 })
 
 
+// SORT LOGIC
+
+let sort = false;
+btnSort.addEventListener("click", (e)=>{
+    e.preventDefault();
+    sort = !(sort)
+    console.log(`OVO JE SORT: ${sort}`);
+    displayMovements(currentAccount, sort)
+
+})
+
 
 // MAP 
 
@@ -245,7 +263,7 @@ btnLoan.addEventListener("click", (e)=>{
 
 // FILTER
 
-const movements = [200,300,400,-450,900,-600,2200,-240]
+// const movements = [200,300,400,-450,900,-600,2200,-240]
 
 // const deposit = movements.filter(mov =>{
 //   console.log(mov);
@@ -294,80 +312,121 @@ const movements = [200,300,400,-450,900,-600,2200,-240]
 // console.log(movements.includes(-130));
 
 
-const breeds = [
-  {
-    breed: 'German Shepherd',
-    averageWeight: 32,
-    activities: ['fetch', 'swimming'],
-  },
-  {
-    breed: 'Dalmatian',
-    averageWeight: 24,
-    activities: ['running', 'fetch', 'agility'],
-  },
-  {
-    breed: 'Labrador',
-    averageWeight: 28,
-    activities: ['swimming', 'fetch'],
-  },
-  {
-    breed: 'Beagle',
-    averageWeight: 12,
-    activities: ['digging', 'fetch'],
-  },
-  {
-    breed: 'Husky',
-    averageWeight: 26,
-    activities: ['running', 'agility', 'swimming'],
-  },
-  {
-    breed: 'Bulldog',
-    averageWeight: 36,
-    activities: ['sleeping'],
-  },
-  {
-    breed: 'Poodle',
-    averageWeight: 18,
-    activities: ['agility', 'fetch'],
-  },
-];
+// const breeds = [
+//   {
+//     breed: 'German Shepherd',
+//     averageWeight: 32,
+//     activities: ['fetch', 'swimming'],
+//   },
+//   {
+//     breed: 'Dalmatian',
+//     averageWeight: 24,
+//     activities: ['running', 'fetch', 'agility'],
+//   },
+//   {
+//     breed: 'Labrador',
+//     averageWeight: 28,
+//     activities: ['swimming', 'fetch'],
+//   },
+//   {
+//     breed: 'Beagle',
+//     averageWeight: 12,
+//     activities: ['digging', 'fetch'],
+//   },
+//   {
+//     breed: 'Husky',
+//     averageWeight: 26,
+//     activities: ['running', 'agility', 'swimming'],
+//   },
+//   {
+//     breed: 'Bulldog',
+//     averageWeight: 36,
+//     activities: ['sleeping'],
+//   },
+//   {
+//     breed: 'Poodle',
+//     averageWeight: 18,
+//     activities: ['agility', 'fetch'],
+//   },
+// ];
 
 
-const newBreeds = breeds.find(breed => breed.activities.includes('fetch') && breed.activities.includes('running'))
-console.log(newBreeds);
+// const newBreeds = breeds.find(breed => breed.activities.includes('fetch') && breed.activities.includes('running'))
+// console.log(newBreeds);
 
 
-// let allActivitie = [];
-// allActivitie.push(breeds.find(breed => breed.activities))
+// // let allActivitie = [];
+// // allActivitie.push(breeds.find(breed => breed.activities))
+// // console.log(allActivitie);
+// let newArray = [];
+// breeds.map(breed => {
+//   console.log(breed.activities);
+//   newArray.push(breed.activities)
+// })
+// console.log(newArray.flat());
+
+// let allActivitie = [...new Set(newArray.flat())]
 // console.log(allActivitie);
-let newArray = [];
-breeds.map(breed => {
-  console.log(breed.activities);
-  newArray.push(breed.activities)
+
+// //let swimmingAdjancet = [];
+// newArray = []
+// breeds.map(breed => {  
+//   if(breed.activities.includes('swimming')){
+//       newArray.push(breed.activities)
+//   }
+
+//   })
+// let swimmingAdjancet = newArray.flat()
+// swimmingAdjancet = swimmingAdjancet.filter(item => item !== 'swimming')
+// console.log(swimmingAdjancet);
+
+// let averageWeight = breeds.map(breed => breed.averageWeight)
+// console.log(averageWeight.every(item => item > 10));
+
+// console.log(breeds.every(breed => breed.averageWeight > 10));
+
+// const fetchBreeds = breeds.filter(breed => breed.activities.includes('fetch')).map(breed => breed.averageWeight)
+// const avgFetchBreeds = fetchBreeds.reduce((sum,item) => sum+item,0) / fetchBreeds.length
+// console.log(fetchBreeds);
+// console.log(avgFetchBreeds);
+
+
+// SORT 
+
+let newArray = [1,2,3,4,5,6,7,9,8,10]
+
+// OPADAJUCE SORTIRANJE
+newArray.sort((a,b) => {
+  if(a>b) return -1;
+  if(b>a) return 1;
 })
-console.log(newArray.flat());
 
-let allActivitie = [...new Set(newArray.flat())]
-console.log(allActivitie);
+// NORMALNO SORTIRANJE
+newArray.sort((a,b) => {
+  if(a>b) return 1;
+  if(b>a) return -1;
+})
 
-//let swimmingAdjancet = [];
-newArray = []
-breeds.map(breed => {  
-  if(breed.activities.includes('swimming')){
-      newArray.push(breed.activities)
-  }
+console.log(newArray);
 
-  })
-let swimmingAdjancet = newArray.flat()
-swimmingAdjancet = swimmingAdjancet.filter(item => item !== 'swimming')
-console.log(swimmingAdjancet);
+newArray.sort((a,b) => b-a);
+console.log(newArray);
 
-let averageWeight = breeds.map(breed => breed.averageWeight)
-console.log(averageWeight.every(item => item > 10));
+newArray.sort((a,b) => a-b);
+console.log(newArray);
 
-console.log(breeds.every(breed => breed.averageWeight > 10));
 
-const fetchBreeds = breeds.filter(breed => breed.activities.includes('fetch')).map(breed => breed.averageWeight)
-const avgFetchBreeds = fetchBreeds.reduce((sum,item) => sum+item,0) / fetchBreeds.length
-console.log(fetchBreeds);
-console.log(avgFetchBreeds);
+const movements = [200,300,400,-450,900,-600,2200,-240]
+
+const groupedMovement = Object.groupBy(movements, mov => mov > 0 ? 'deposit' : 'withdrawalas')
+console.log(groupedMovement);
+
+const groupByActive = Object.groupBy(accounts, account => {
+  const movementCount = account.movements.length;
+
+  if(movementCount > 5) return 'very active';
+  if(movementCount > 3) return 'active';
+  if(movementCount > 1) return 'inactive';
+
+})
+console.log(groupByActive);
